@@ -2,6 +2,7 @@ const express = require('express');
 
 // Routes
 const taskRouter = require('./routes/tasks')
+const categoryRouter = require('./routes/categories')
 
 const app = express()
 const PORT = 3000
@@ -10,6 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 app.use('/tasks', taskRouter)
+app.use('/categories', categoryRouter)
 
 app.listen(PORT, error => {
     if (error) {

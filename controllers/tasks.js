@@ -9,9 +9,9 @@ async function createTask(req, res) {
 
         res.json(createdTask.rows[0])
     }
-    catch (err) {
+    catch (error) {
         res.json({
-            err
+            error
         })
     }
 }
@@ -39,7 +39,8 @@ async function readTasks(req, res) {
         const tasks = await pool.query(query, parameters)
 
         res.json({
-            tasks: tasks.rows
+            count: tasks.rowCount,
+            tasks: tasks.rows,
         })
     }
     catch (err) {
@@ -64,6 +65,8 @@ async function readTaskDetail(req, res) {
                     }
                 ]
             })
+            
+            return
         }
 
         res.json({
@@ -101,7 +104,6 @@ async function updateTask(req, res) {
         })
     }
     catch (err) {
-        console.log(err)
         res.json({err})
     }
 }
@@ -130,7 +132,6 @@ async function deleteTask(req, res) {
         })
     }
     catch (err) {
-        console.log(err)
         res.json({err})
     }
 }

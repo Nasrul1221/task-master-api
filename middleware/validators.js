@@ -8,8 +8,6 @@ const createRules = [
 
 const readRules = [
     body('userId').notEmpty().isNumeric(),
-    query('category').optional().trim().notEmpty(),
-    query('search').optional().trim().notEmpty()
 ]
 
 const readDetailsRules = [
