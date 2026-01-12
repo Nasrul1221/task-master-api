@@ -31,7 +31,7 @@ API for tasks handling
 
 Run the following command
 ```bash
-npm run populated
+npm run populatedb
 ```
 
 It'll create the schema below:
@@ -63,3 +63,28 @@ CREATE TABLE IF NOT EXISTS users
      completed BOOLEAN NOT NULL DEFAULT false
  )
 ```
+### Launching
+There are two ways to launch the API.
+1. `npm run start` - *node app.js*
+2. `npm run dev` - *node --watch app.js*. This way automatically restarts the API after every change you make.
+
+### API Reference
+
+#### Tasks
+| Method | Endpoint | Description | Access |
+| :--- | :--- | :--- | :---|
+| POST | /auth/login | Signing in and creating a new JWT token | Public |
+| POST | /auth/register | Register a new user | Public |
+| GET | /tasks | Returns all user's tasks | Private |
+| GET | /tasks/:id | Returns a user's task by id | Private |
+| POST | /tasks | Creates a new task | Private |
+| PUT | /tasks/:id | Updates a task | Private |
+| DELETE | /tasks | Deletes a task | Private |
+
+#### Categories
+| Method | Endpoint | Description | Access |
+| :--- | :--- | :--- | :---|
+| GET | /categories | Returns all user's categories | Private |
+| POST | /categories | Creates a new category | Private |
+| PUT | /categories/:id | Updates a category | Private |
+| DELETE | /categories/:id | Deletes a category | Private |
