@@ -4,7 +4,8 @@ const pool = require('../db/db')
 
 async function createCategory(req, res) {
     try {
-        const {name, userId} = req.body
+        const userId = req.user.id
+        const {name} = req.body
         
         const createdCategory = await pool.query('INSERT INTO categories (name, user_id) VALUES ($1, $2) RETURNING id, name', [name, userId])
 
@@ -20,7 +21,7 @@ async function createCategory(req, res) {
 
 async function readCategories(req, res) {
     try {
-        const {userId} = req.body
+        const userId = req.user.id
 
         const categories = await pool.query('SELECT * FROM categories WHERE user_id = $1', [userId])
 
@@ -36,10 +37,11 @@ async function readCategories(req, res) {
 
 async function updateCategory(req, res) {
     try {
-        const {name, userId} = req.body
+        const userId = req.user.id
+        const {name} = req.body
         const {categoryId} = req.params
         
-        const updatedCategory = await pool.query('UPDATE categories SET name = $1 WHERE user_id = $2 AND id = $3', [name, userId, categoryId])
+        const updatedCategory = await pool.query('UPDATE categories SET name = $1 WHERE user_id = $2 AND id = $3 RETURNING *', [name, userId, categoryId])
 
         if (updatedCategory.rowCount === 0) {
             res.status(404).json({
@@ -54,7 +56,7 @@ async function updateCategory(req, res) {
         }
 
         res.json({
-            updatedCategory
+            updatedCategory: updatedCategory.rows[0]
         })
     }
     catch (error) {
@@ -65,7 +67,7 @@ async function updateCategory(req, res) {
 
 async function deleteCategory(req, res) {
     try {
-        const {userId} = req.body
+        const userId = req.user.id
         const {categoryId} = req.params
         
         const deletedCategory = await pool.query('DELETE FROM categories WHERE id = $1 AND user_id = $2', [categoryId, userId])
@@ -82,9 +84,7 @@ async function deleteCategory(req, res) {
             return
         }
 
-        res.json({
-            deletedCategory
-        })
+        res.sendStatus(204)
     }
     catch (error) {
         console.log(error)

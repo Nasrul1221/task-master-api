@@ -20,11 +20,13 @@ async function readTasks(req, res) {
         const userId = req.user.id
         const {category, search} = req.query
 
+        console.log(category, search)
+
         let query = 'SELECT tasks.*, categories.name AS category_name FROM tasks LEFT JOIN categories ON tasks.category_id = categories.id WHERE tasks.user_id = $1';
         let parameters = [userId]
         let i = 2
         
-        if (category) {
+        if (category && search.trim() !== '') {
             query += ` AND categories.name = $${i++}`
             parameters.push(category)
         }
@@ -50,7 +52,7 @@ async function readTasks(req, res) {
 
 async function readTaskDetail(req, res) {
     try {
-        const {userId} = req.body
+        const userId = req.user.id
         const {taskId} = req.params
 
         const task = await pool.query('SELECT * FROM tasks WHERE user_id = $1 AND id = $2', [userId, taskId])
@@ -79,10 +81,11 @@ async function readTaskDetail(req, res) {
 
 async function updateTask(req, res) {    
     try {
-        const {title, content, category_id, userId} = req.body
+        const userId = req.user.id
+        const {title, content, categoryId} = req.body
         const {taskId} = req.params
 
-        const updatedTask = await pool.query('UPDATE tasks SET title = $1, task_content = $2, category_id = $3, updated_at = NOW() WHERE user_id = $4 AND id = $5 RETURNING title, task_content, category_id', [title, content, category_id, userId, taskId])
+        const updatedTask = await pool.query('UPDATE tasks SET title = $1, task_content = $2, category_id = $3, updated_at = NOW() WHERE user_id = $4 AND id = $5 RETURNING *', [title, content, categoryId, userId, taskId])
 
         if (updatedTask.rowCount === 0) {
             res.status(404).json({
@@ -97,7 +100,7 @@ async function updateTask(req, res) {
         }
 
         res.json({
-            updatedTask
+            updatedTask: updatedTask.rows[0]
         })
     }
     catch (error) {
@@ -108,7 +111,7 @@ async function updateTask(req, res) {
 
 async function deleteTask(req, res) {
     try {
-        const {userId} = req.body
+        const userId = req.user.id
         const {taskId} = req.params
 
         const deletedTask = await pool.query('DELETE FROM tasks WHERE user_id = $1 AND id = $2', [userId, taskId])

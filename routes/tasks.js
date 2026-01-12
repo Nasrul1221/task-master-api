@@ -4,14 +4,14 @@ const jwtauth = require('../middleware/auth')
 
 // Validation
 const {validate} = require('../middleware/validation')
-const {createRules, readDetailsRules, updateRules, deleteRules} = require('../middleware/validators')
+const {createTasksVal, readTaskDetailsVal, deleteTasksVal, updateTasksVal} = require('../middleware/validators')
 
 const taskRouter = Router()
 
 taskRouter.get('/', jwtauth, readTasks)
-taskRouter.get('/:taskId', readDetailsRules, validate, readTaskDetail)
-taskRouter.post('/', createRules, validate, createTask)
-taskRouter.put('/:taskId', updateRules, validate, updateTask)
-taskRouter.delete('/:taskId', deleteRules, validate, deleteTask)
+taskRouter.get('/:taskId', jwtauth, readTaskDetailsVal, validate, readTaskDetail)
+taskRouter.post('/', jwtauth, createTasksVal, validate, createTask)
+taskRouter.put('/:taskId', jwtauth, updateTasksVal, validate, updateTask)
+taskRouter.delete('/:taskId', jwtauth, deleteTasksVal, validate, deleteTask)
 
 module.exports = taskRouter
