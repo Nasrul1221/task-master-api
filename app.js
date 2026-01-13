@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended: true}))
 
 app.use('/tasks', taskRouter)
 app.use('/categories', categoryRouter)
-app.use('/', authRouter)
+app.use('/auth', authRouter)
 
 app.listen(PORT, error => {
     if (error) {

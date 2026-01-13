@@ -19,20 +19,16 @@ async function register(req, res) {
                     return {msg: 'This email is already in use!'}
                 }
             })
-            res.status(400).json({
+            return res.status(409).json({
                 errors
             })
-            
-            return
         }
         
         const hashed = await bcrypt.hash(password, 10)
 
         const user = await pool.query('INSERT INTO users (username, password, email) VALUES ($1, $2, $3)', [username, hashed, email])
 
-        res.status(201).json({
-            msg: 'User was registered'
-        })
+        res.sendStatus(201)
     }
     catch (error) {
         console.log(error)

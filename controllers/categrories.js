@@ -9,9 +9,7 @@ async function createCategory(req, res) {
         
         const createdCategory = await pool.query('INSERT INTO categories (name, user_id) VALUES ($1, $2) RETURNING id, name', [name, userId])
 
-        res.json({
-            category: createdCategory.rows[0]
-        })
+        res.sendStatus(201)
     }
     catch (error) {
         console.log(error)

@@ -3,11 +3,12 @@ const pool = require('../db/db')
 // CRUD
 async function createTask(req, res) {
     try {
+        const userId = req.user.id
         const {categoryId, title, content} = req.body
 
         const createdTask = await pool.query('INSERT INTO tasks (user_id, category_id, title, task_content) VALUES ($1, $2, $3, $4) RETURNING *', [userId, categoryId, title, content])
 
-        res.json(createdTask.rows[0])
+        res.sendStatus(201)
     }
     catch (error) {
         console.log(error)
