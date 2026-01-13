@@ -90,8 +90,8 @@ There are two ways to launch the API.
 | :--- | :--- | :--- | :---|
 | GET | [/categories](#get-categories) | Returns all user's categories | Private |
 | POST | [/categories](#post-categories) | Creates a new category | Private |
-| PUT | [/categories/:id](put-categoriesid) | Updates a category | Private |
-| DELETE | [/categories/:id](delete-categoriesid) | Deletes a category | Private |
+| PUT | [/categories/:id](#put-categoriesid) | Updates a category | Private |
+| DELETE | [/categories/:id](#delete-categoriesid) | Deletes a category | Private |
 
 ## API Details
 
