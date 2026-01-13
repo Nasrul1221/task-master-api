@@ -1,18 +1,19 @@
 {
   "name": "task-master-api",
-    "version": "1.0.0",
-    "description": "",
-    "license": "ISC",
-    "author": "Nasrul",
-    "type": "commonjs",
-    "main": "app.js",
-    "scripts": {
-      "start": "node app.js",
-      "dev": "node --watch app.js",
-      "populatedb": "node db/runDb.js"
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Nasrul",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "populatedb": "node db/runDb.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "express-validator": "^7.3.1",
