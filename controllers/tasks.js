@@ -8,7 +8,7 @@ async function createTask(req, res) {
 
         const createdTask = await pool.query('INSERT INTO tasks (user_id, category_id, title, task_content) VALUES ($1, $2, $3, $4) RETURNING *', [userId, categoryId, title, content])
 
-        res.sendStatus(201)
+        res.status(201).json(createdTask.rows[0])
     }
     catch (error) {
         console.log(error)
